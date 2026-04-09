@@ -134,6 +134,7 @@ function sendQuestionToPlayer(io, nsp, player, roomId) {
     question: q.question,
     options: shuffledOptions,
     timeLimit: 30,
+    quizName: room.quizName,
   });
 
   // Timer personal: si no responde en 30s, marcar incorrecta y avanzar

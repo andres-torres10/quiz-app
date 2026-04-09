@@ -157,3 +157,28 @@ code { background: rgba(255,255,255,.08); padding: .15rem .4rem; border-radius: 
 /* ===== ADMIN CODE TOGGLE ===== */
 .admin-code-toggle { margin-bottom: .75rem; }
 .btn-sm { padding: .5rem 1rem; font-size: .85rem; width: auto; }
+
+/* ===== TABS ===== */
+.tab-bar { display: flex; border-bottom: 2px solid #1e293b; }
+.tab-btn { flex: 1; background: transparent; border: none; border-bottom: 3px solid transparent;
+  color: var(--muted); padding: .85rem; font-size: 1rem; border-radius: 0; margin-bottom: -2px; }
+.tab-btn.active { color: var(--accent2); border-bottom-color: var(--accent2); }
+
+/* ===== HISTORY ===== */
+.history-info { display: flex; flex-direction: column; flex: 1; }
+.history-date { font-size: .8rem; color: var(--muted); }
+
+/* ===== NAVBAR USER ===== */
+.nav-user { color: var(--muted); font-size: .85rem; }
+
+/* ===== GOOGLE BUTTON ===== */
+.btn-google {
+  display: flex; align-items: center; justify-content: center; gap: .75rem;
+  width: 100%; padding: .85rem; border-radius: var(--radius);
+  background: #fff; color: #333; font-weight: 500; font-size: 1rem;
+  border: 1.5px solid #ddd; margin-bottom: .75rem;
+}
+.btn-google:hover { background: #f5f5f5; }
+
+.divider { display: flex; align-items: center; gap: .75rem; margin: 1rem 0; color: var(--muted); }
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #334155; }

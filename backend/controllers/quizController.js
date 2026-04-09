@@ -82,7 +82,7 @@ exports.saveScore = async (req, res) => {
   }
 };
 
-// Top 10 ranking
+// Top 10 ranking global
 exports.getRanking = async (req, res) => {
   try {
     const ranking = await Score.aggregate([
@@ -92,6 +92,18 @@ exports.getRanking = async (req, res) => {
       { $project: { _id: 0, username: '$_id', totalScore: 1 } },
     ]);
     res.json(ranking);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Historial de partidas del usuario actual
+exports.getHistory = async (req, res) => {
+  try {
+    const history = await Score.find({ userId: req.user.id })
+      .sort({ playedAt: -1 })
+      .limit(20);
+    res.json(history);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

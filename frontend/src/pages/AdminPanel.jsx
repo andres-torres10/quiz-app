@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import NavBar from '../components/NavBar';
 
 export default function AdminPanel() {
   const navigate = useNavigate();
@@ -31,10 +32,7 @@ export default function AdminPanel() {
 
   return (
     <div className="page">
-      <header className="top-bar">
-        <span className="logo">🎯 Admin</span>
-        <button className="btn-outline" onClick={() => navigate('/')}>← Volver</button>
-      </header>
+      <NavBar title="Admin" />
 
       <main className="admin-main">
         <div className="admin-card">

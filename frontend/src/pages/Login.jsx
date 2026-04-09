@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../services/api';
 import { useAuth } from '../services/authContext';
+import { signInWithGoogle } from '../services/firebase';
 
 export default function Login() {
   const { login } = useAuth();
@@ -18,6 +19,21 @@ export default function Login() {
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Error al iniciar sesión');
+    }
+  };
+
+  const handleGoogle = async () => {
+    setError('');
+    try {
+      const googleUser = await signInWithGoogle();
+      const { data } = await api.post('/auth/google', {
+        email: googleUser.email,
+        username: googleUser.displayName,
+      });
+      login(data);
+      navigate('/');
+    } catch (err) {
+      setError('Error al iniciar sesión con Google');
     }
   };
 
@@ -38,6 +54,14 @@ export default function Login() {
           />
           <button type="submit" className="btn-primary">Entrar</button>
         </form>
+
+        <div className="divider"><span>o</span></div>
+
+        <button className="btn-google" onClick={handleGoogle}>
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20" />
+          Continuar con Google
+        </button>
+
         <p>¿No tienes cuenta? <Link to="/register">Regístrate</Link></p>
       </div>
     </div>
