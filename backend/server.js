@@ -8,14 +8,11 @@ const { PORT, MONGO_URI } = require('./config');
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: {
-    origin: ['https://quiz-app-c56a1.web.app', 'http://localhost:5173'],
-    methods: ['GET', 'POST'],
-  },
+  cors: { origin: '*', methods: ['GET', 'POST'] },
   transports: ['polling', 'websocket'],
 });
 
-app.use(cors());
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 // Necesario para que el popup de Google Auth pueda cerrarse correctamente
 app.use((req, res, next) => {
