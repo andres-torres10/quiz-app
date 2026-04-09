@@ -11,6 +11,11 @@ const io = new Server(server, { cors: { origin: '*' } });
 
 app.use(cors());
 app.use(express.json());
+// Necesario para que el popup de Google Auth pueda cerrarse correctamente
+app.use((req, res, next) => {
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+  next();
+});
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
