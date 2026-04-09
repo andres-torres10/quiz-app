@@ -1,0 +1,15 @@
+{
+  "appId": "com.quizapp.mobile",
+  "appName": "Quiz App",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#0f0f1a",
+      "showSpinner": false
+    }
+  }
+}
