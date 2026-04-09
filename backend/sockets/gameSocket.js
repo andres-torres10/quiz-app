@@ -57,7 +57,7 @@ module.exports = (io) => {
         const shuffledQuestions = [...baseQuestions].sort(() => Math.random() - 0.5);
         player.questions = shuffledQuestions;
         player.currentQ = 0;
-        sendQuestionToPlayer(io, socket.nsp, player, roomId);
+        sendQuestionToPlayer(io, player, roomId, room.quizName);
       });
     });
 
@@ -90,7 +90,7 @@ module.exports = (io) => {
       });
 
       // Esperar 2s y pasar a la siguiente
-      setTimeout(() => advancePlayer(io, socket, player, roomId, room), 2000);
+      setTimeout(() => advancePlayer(io, player, roomId), 2000);
     });
 
     socket.on('disconnect', () => {
@@ -113,10 +113,9 @@ module.exports = (io) => {
   });
 };
 
-function sendQuestionToPlayer(io, nsp, player, roomId) {
+function sendQuestionToPlayer(io, player, roomId, quizName) {
   const q = player.questions[player.currentQ];
   if (!q) {
-    // Este jugador terminó
     io.to(player.id).emit('player_finished', {
       totalScore: player.score,
       username: player.username,
@@ -134,24 +133,25 @@ function sendQuestionToPlayer(io, nsp, player, roomId) {
     question: q.question,
     options: shuffledOptions,
     timeLimit: 30,
-    quizName: room.quizName,
+    quizName,
   });
 
-  // Timer personal: si no responde en 30s, marcar incorrecta y avanzar
   player.timer = setTimeout(() => {
     if (player.answered) return;
     player.answered = true;
     io.to(player.id).emit('time_up', { correctAnswer: q.correct });
     setTimeout(() => {
       player.currentQ++;
-      sendQuestionToPlayer(io, nsp, player, roomId);
+      sendQuestionToPlayer(io, player, roomId, quizName);
     }, 2000);
   }, 30000);
 }
 
-function advancePlayer(io, socket, player, roomId, room) {
+function advancePlayer(io, player, roomId) {
+  const room = rooms[roomId];
+  if (!room) return;
   player.currentQ++;
-  sendQuestionToPlayer(io, socket.nsp, player, roomId);
+  sendQuestionToPlayer(io, player, roomId, room.quizName);
 }
 
 function checkRoomFinished(io, roomId) {
