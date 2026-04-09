@@ -6,7 +6,10 @@ let socket = null;
 
 export function getSocket() {
   if (!socket) {
-    socket = io(SERVER_URL, { transports: ['websocket'] });
+    socket = io(SERVER_URL, {
+      transports: ['polling', 'websocket'], // polling primero para Render
+      upgrade: true,
+    });
   }
   return socket;
 }

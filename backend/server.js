@@ -7,7 +7,13 @@ const { PORT, MONGO_URI } = require('./config');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: '*' } });
+const io = new Server(server, {
+  cors: {
+    origin: ['https://quiz-app-c56a1.web.app', 'http://localhost:5173'],
+    methods: ['GET', 'POST'],
+  },
+  transports: ['polling', 'websocket'],
+});
 
 app.use(cors());
 app.use(express.json());
